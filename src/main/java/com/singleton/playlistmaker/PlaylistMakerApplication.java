@@ -5,10 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PlaylistmakerApplication implements CommandLineRunner {
+public class PlaylistMakerApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(PlaylistmakerApplication.class, args);
+        SpringApplication.run(PlaylistMakerApplication.class, args);
     }
 
     @Override
