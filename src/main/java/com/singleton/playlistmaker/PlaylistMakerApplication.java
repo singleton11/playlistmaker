@@ -1,5 +1,6 @@
 package com.singleton.playlistmaker;
 
+import com.singleton.playlistmaker.service.Parser;
 import com.singleton.playlistmaker.service.ServiceClient;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +20,8 @@ public class PlaylistMakerApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        System.out.println(applicationContext.getBean("coreRadioClient", ServiceClient.class).getData());
+    public void run(String... args) {
+        String data = applicationContext.getBean("coreRadioClient", ServiceClient.class).getData();
+        System.out.println(applicationContext.getBean("coreRadioParser", Parser.class).parse(data));
     }
 }
