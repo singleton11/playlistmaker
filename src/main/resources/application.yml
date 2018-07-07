@@ -1,6 +1,0 @@
-coreradio:
-  host: http://coreradio.ru
-
-google:
-  albumNumber: 100
-  playListName: CoreRadio

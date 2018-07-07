@@ -12,13 +12,12 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CoreRadioParser implements Parser {
+public class CoreRadioParser {
 
     final private Pattern genrePattern = Pattern.compile("Genre: (.*) Country");
     final private Pattern titlePattern = Pattern.compile("(.*) \\[?.*\\(");
 
-    @Override
-    public List<Album> parse(String data) {
+    List<Album> parse(String data) {
         Document doc = Jsoup.parse(data);
         Elements elements = doc.getElementsByClass("main-news");
         return elements.stream().map(this::getAlbum).collect(Collectors.toList());

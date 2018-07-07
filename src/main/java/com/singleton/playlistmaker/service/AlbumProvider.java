@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AlbumProvider {
 
-    private ServiceClient client;
-    private Parser parser;
+    private CoreRadioClient client;
+    private CoreRadioParser parser;
 
     List<Album> provide(int number) {
         int provided = 0;

@@ -1,6 +1,6 @@
 package com.singleton.playlistmaker;
 
-import java.io.IOException;
+import com.singleton.playlistmaker.service.PlaylistCreator;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
@@ -19,7 +19,7 @@ public class PlaylistMakerApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws IOException {
-        System.out.println("Hey");
+    public void run(String... args) {
+        applicationContext.getBean("playlistCreator", PlaylistCreator.class).create();
     }
 }
