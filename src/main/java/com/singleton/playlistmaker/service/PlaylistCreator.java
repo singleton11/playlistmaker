@@ -30,6 +30,8 @@ public class PlaylistCreator {
         log.info("Provide " + ALBUM_COUNT + " albums");
         List<Album> albums = albumProvider.provide(ALBUM_COUNT);
 
+        int trackCounter = 0;
+
         for (Album album : albums) {
             log.info("Search " + album.getTitle() + " in music catalog");
             AtomicLong albumId = new AtomicLong();
@@ -40,7 +42,11 @@ public class PlaylistCreator {
                 List<Track> tracks = musicClient.getAlbumInfo(albumId.get()).getTracks().getData();
                 log.info("Adding tracks of album to playlist " + playlist.getId());
                 musicClient.addTracksToPlaylist(playlist, tracks);
+                log.info("Added " + tracks.size() + " tracks to playlist " + playlist.getId());
+                trackCounter += tracks.size();
             }
+
         }
+        log.info(trackCounter + " added to playlist " + playlist.getId());
     }
 }

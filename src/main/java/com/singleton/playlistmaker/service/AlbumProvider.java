@@ -21,7 +21,8 @@ public class AlbumProvider {
         while (provided < number) {
             String data = client.getData(page);
             albums.addAll(parser.parse(data));
-            provided += albums.size();
+            provided = albums.size();
+            page++;
         }
         return albums.stream().limit(number).collect(Collectors.toList());
     }
