@@ -1,4 +1,4 @@
-package com.singleton.playlistmaker.domain;
+package com.singleton.playlistmaker.domain.musicapi;
 
 import lombok.Data;
 

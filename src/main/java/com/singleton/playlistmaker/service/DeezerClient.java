@@ -1,8 +1,11 @@
 package com.singleton.playlistmaker.service;
 
 import com.singleton.playlistmaker.domain.DeezerResponse;
-import com.singleton.playlistmaker.domain.Playlist;
+import com.singleton.playlistmaker.domain.musicapi.Album;
+import com.singleton.playlistmaker.domain.musicapi.Playlist;
+import com.singleton.playlistmaker.domain.musicapi.Track;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -44,5 +47,33 @@ public class DeezerClient {
 
     void deletePlaylist(String title) {
         getPlaylists().stream().filter(playlist -> playlist.getTitle().equals(title)).findFirst().ifPresent(playlist -> deletePlaylist(playlist.getId()));
+    }
+
+    List<Track> search(String query) {
+        String url = uriComponentsBuilder.cloneBuilder()
+                                         .path("search")
+                                         .queryParam("q", query)
+                                         .build()
+                                         .toUriString();
+
+        DeezerResponse<Track> response = restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<DeezerResponse<Track>>() {
+        }).getBody();
+
+        return response.getData();
+    }
+
+    Album getAlbumInfo(long albumId) {
+        String url = uriComponentsBuilder.cloneBuilder().path("/album/" + albumId).build().toUriString();
+        return restTemplate.getForObject(url, Album.class);
+    }
+
+    void addTracksToPlaylist(Playlist playlist, List<Track> tracks) {
+        String url = uriComponentsBuilder.cloneBuilder()
+                                         .path("/playlist/" + playlist.getId() + "/tracks")
+                                         .queryParam("songs",
+                                                     tracks.stream().map(track -> String.valueOf(track.getId())).collect(Collectors.joining(",")))
+                                         .build()
+                                         .toUriString();
+        restTemplate.postForObject(url, HttpEntity.EMPTY, String.class);
     }
 }
