@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class PlaylistCreator {
 
     private static final String PLAYLIST_TITLE = "Core radio";
-    private static final int ALBUM_COUNT = 10;
+    private static final int ALBUM_COUNT = 100;
 
     private DeezerClient musicClient;
     private AlbumProvider albumProvider;
