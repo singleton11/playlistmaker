@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class CoreRadioParser {
 
     final private Pattern genrePattern = Pattern.compile("Genre: (.*) Country");
-    final private Pattern titlePattern = Pattern.compile("(.*) \\[?.*\\(");
+    final private Pattern titlePattern = Pattern.compile("([\\w\\s-]*) \\[?.*\\(");
 
     List<Album> parse(String data) {
         Document doc = Jsoup.parse(data);
