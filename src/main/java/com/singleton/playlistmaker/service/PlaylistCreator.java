@@ -17,7 +17,7 @@ public class PlaylistCreator {
     private static final String PLAYLIST_TITLE = "Core radio";
     private static final int ALBUM_COUNT = 100;
 
-    private DeezerClient musicClient;
+    private MusicServiceClient musicClient;
     private Provider provider;
 
     public void create() {

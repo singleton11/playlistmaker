@@ -16,12 +16,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @AllArgsConstructor
-public class DeezerClient {
+public class DeezerClient implements MusicServiceClient {
 
     private RestTemplate restTemplate;
     private UriComponentsBuilder uriComponentsBuilder;
 
-    Playlist createPlaylist(String title) {
+    @Override
+    public Playlist createPlaylist(String title) {
         String url = uriComponentsBuilder.cloneBuilder().path("/user/me/playlists").queryParam("title", title).build().toUriString();
         return restTemplate.postForObject(url, HttpEntity.EMPTY, Playlist.class);
     }
@@ -45,11 +46,12 @@ public class DeezerClient {
         restTemplate.delete(url);
     }
 
-    void deletePlaylist(String title) {
+    @Override
+    public void deletePlaylist(String title) {
         getPlaylists().stream().filter(playlist -> playlist.getTitle().equals(title)).findFirst().ifPresent(playlist -> deletePlaylist(playlist.getId()));
     }
 
-    List<Track> search(String query) {
+    public List<Track> search(String query) {
         String url = uriComponentsBuilder.cloneBuilder()
                                          .path("search")
                                          .queryParam("q", query)
@@ -62,12 +64,14 @@ public class DeezerClient {
         return response.getData();
     }
 
-    Album getAlbumInfo(long albumId) {
+    @Override
+    public Album getAlbumInfo(long albumId) {
         String url = uriComponentsBuilder.cloneBuilder().path("/album/" + albumId).build().toUriString();
         return restTemplate.getForObject(url, Album.class);
     }
 
-    void addTracksToPlaylist(Playlist playlist, List<Track> tracks) {
+    @Override
+    public void addTracksToPlaylist(Playlist playlist, List<Track> tracks) {
         String url = uriComponentsBuilder.cloneBuilder()
                                          .path("/playlist/" + playlist.getId() + "/tracks")
                                          .queryParam("songs",
