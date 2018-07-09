@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class AlbumProvider implements Provider {
 
     private ContentSource client;
-    private CoreRadioParser parser;
+    private Parser parser;
 
     @Override
     public List<Album> provide(int number) {
