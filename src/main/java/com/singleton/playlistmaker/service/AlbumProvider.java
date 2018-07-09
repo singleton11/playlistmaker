@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AlbumProvider {
+public class AlbumProvider implements Provider {
 
     private CoreRadioClient client;
     private CoreRadioParser parser;
 
-    List<Album> provide(int number) {
+    @Override
+    public List<Album> provide(int number) {
         int provided = 0;
         int page = 1;
         List<Album> albums = new ArrayList<>();

@@ -18,7 +18,7 @@ public class PlaylistCreator {
     private static final int ALBUM_COUNT = 100;
 
     private DeezerClient musicClient;
-    private AlbumProvider albumProvider;
+    private Provider provider;
 
     public void create() {
         log.info("Removing previous playlist: " + PLAYLIST_TITLE);
@@ -28,7 +28,7 @@ public class PlaylistCreator {
         Playlist playlist = musicClient.createPlaylist(PLAYLIST_TITLE);
 
         log.info("Provide " + ALBUM_COUNT + " albums");
-        List<Album> albums = albumProvider.provide(ALBUM_COUNT);
+        List<Album> albums = provider.provide(ALBUM_COUNT);
 
         int trackCounter = 0;
 
