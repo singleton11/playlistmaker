@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AlbumProvider implements Provider {
 
-    private CoreRadioClient client;
+    private ContentSource client;
     private CoreRadioParser parser;
 
     @Override
