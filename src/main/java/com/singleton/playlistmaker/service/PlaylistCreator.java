@@ -5,6 +5,8 @@ import com.singleton.playlistmaker.domain.musicapi.Playlist;
 import com.singleton.playlistmaker.domain.musicapi.Track;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,11 @@ public class PlaylistCreator {
         for (Album album : albums) {
             log.info("Search " + album.getTitle() + " in music catalog");
             AtomicLong albumId = new AtomicLong();
-            musicClient.search(album.getTitle()).stream().findFirst().ifPresent(song -> albumId.set(song.getAlbum().getId()));
+            musicClient.search(album.getTitle())
+                       .stream()
+                       .findFirst()
+                       .filter(track -> track.getArtist().getName().equals(getArtistFromAlbumTitle(album.getTitle())))
+                       .ifPresent(song -> albumId.set(song.getAlbum().getId()));
             log.info("Album ID is " + albumId);
             if (albumId.get() != 0) {
                 log.info("Getting list of tracks of album " + albumId);
@@ -48,5 +54,16 @@ public class PlaylistCreator {
 
         }
         log.info(trackCounter + " added to playlist " + playlist.getId());
+    }
+
+    private String getArtistFromAlbumTitle(String title) {
+        Pattern pattern = Pattern.compile("(.*)\\s+-");
+        Matcher matcher = pattern.matcher(title);
+        if (matcher.find()) {
+            log.info("Extracted artist name from album " + matcher.group(1));
+            return matcher.group(1);
+        } else {
+            return null;
+        }
     }
 }

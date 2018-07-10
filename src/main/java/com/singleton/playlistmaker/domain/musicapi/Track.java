@@ -7,4 +7,5 @@ public class Track {
 
     private long id;
     private Album album;
+    private Artist artist;
 }
