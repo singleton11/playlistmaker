@@ -1,0 +1,10 @@
+language: java
+jdk:
+- oraclejdk8
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_48c37812810f_key -iv $encrypted_48c37812810f_iv -in application-local.yml.enc -out application-local.yml -d
+
+script:
+  - mvn package
+  - java -Dspring.profiles.active=local -jar playlistmaker-0.0.1-SNAPSHOT.jar
